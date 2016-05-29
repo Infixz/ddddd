@@ -85,5 +85,5 @@ class App(web.Application):
 if __name__ == '__main__':
 	http_server = httpserver.HTTPServer(App())
 	print 'App has being run on server'
-	http_server.listen(80)
+	http_server.listen(8880)
 	ioloop.IOLoop.instance().start()
