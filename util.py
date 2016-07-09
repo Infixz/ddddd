@@ -9,7 +9,7 @@ import tornado.template as template
 import requests
 from lxml import etree
 
-from config import WX_PLAT_TOKEN,TAX_CONST,TAX_START_CONST,tmp
+from local_setting import WX_PLAT_TOKEN, TAX_CONST, TAX_START_CONST, tmp
 
 
 class Retry(object):
@@ -73,13 +73,13 @@ def parse(xml_string):
             param2 = int(temp[1])
             RespContent = u"""
 # 中英互译：直接输入中文\n
-# 查询税后收入：！薪水<数字金额>，<发多少个月工资>例如 “！薪水12000,13”
+# 查询税后收入：！薪水<数字金额>，<发多少个月工资>例如 “#12000,13”
 """ % calc_tax(param1,param2)
             return t.generate(toUser=sender,
                             fromUser=developer,
                             int_time=int(time.time()),
                             Content=RespContent)
-        if content.startswith(u'！薪水'):
+        if content.startswith(u'#'):
             temp = tuple(content[3:].split(u'，'))
             param1 = int(temp[0])
             param2 = int(temp[1])
