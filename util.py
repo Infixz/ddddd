@@ -71,7 +71,7 @@ def parse(xml_string):
             temp = tuple(content[3:].split(u'，'))
             param1 = int(temp[0])
             param2 = int(temp[1])
-            RespContent = u"""
+            RespContent = """
 # 中英互译：直接输入中文\n
 # 查询税后收入：！薪水<数字金额>，<发多少个月工资>例如 “#12000,13”
 """ % calc_tax(param1,param2)
@@ -80,10 +80,10 @@ def parse(xml_string):
                             int_time=int(time.time()),
                             Content=RespContent)
         if content.startswith(u'#'):
-            temp = tuple(content[3:].split(u'，'))
+            temp = tuple(content[1:].split(u'，'))
             param1 = int(temp[0])
             param2 = int(temp[1])
-            RespContent = u"""
+            RespContent = """
 * 月入：%s ，年入：%s *\n
 月实际收入：%s\n税赋：%s\n
 年实际奖金：%s\n税赋：%s\n
@@ -106,7 +106,7 @@ def parse(xml_string):
     if message_type == "event":
         eventContent = xml.find("Event").text
         if eventContent == "subscribe":
-            RespContent = u"""
+            RespContent = """
 感谢你的关注。
 若有疑问请在微信中查找添加 infixz。
 目前实用功能有：
@@ -191,15 +191,15 @@ def youdao(word):
     result = requests.get(builded_url).json()
     if result['errorCode'] == 0:
         if 'basic' in result.keys():
-            trans = u'%s:\n%s\n%s\n网络释义：\n%s'%(result['query'],''.join(result['translation']),' '.join(result['basic']['explains']),'\n'.join(result['web'][0]['value']))
+            trans = '%s:\n%s\n%s\n网络释义：\n%s'%(result['query'],''.join(result['translation']),' '.join(result['basic']['explains']),'\n'.join(result['web'][0]['value']))
             return trans
         else:
-            trans = u'%s:\n基本翻译:%s\n'%(result['query'],''.join(result['translation']))
+            trans = '%s:\n基本翻译:%s\n'%(result['query'],''.join(result['translation']))
     elif result['errorCode'] == 20:
-        return u'对不起，要翻译的文本过长'
+        return '对不起，要翻译的文本过长'
     elif result['errorCode'] == 30:
-        return u'对不起，无法进行有效的翻译'
+        return '对不起，无法进行有效的翻译'
     elif result['errorCode'] == 40:
-        return u'对不起，不支持的语言类型'
+        return '对不起，不支持的语言类型'
     else:
-        return u'对不起，您输入的单词%s无法翻译,请检查拼写'% word
+        return '对不起，您输入的单词%s无法翻译,请检查拼写'% word
