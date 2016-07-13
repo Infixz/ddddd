@@ -54,6 +54,7 @@ def parse(xml_string):
     # add support for other type of message
     # add support for encrypted message
     xml = etree.fromstring(xml_string)
+    print type(xml)
     developer = xml.find('ToUserName').text
     sender = xml.find('FromUserName').text
     create_time = xml.find('CreateTime').text
@@ -196,10 +197,10 @@ def youdao(word):
         else:
             trans = '%s:\n基本翻译:%s\n'%(result['query'],''.join(result['translation']))
     elif result['errorCode'] == 20:
-        return '对不起，要翻译的文本过长'
+        return '查询词过长'
     elif result['errorCode'] == 30:
-        return '对不起，无法进行有效的翻译'
+        return '无法进行有效的翻译'
     elif result['errorCode'] == 40:
-        return '对不起，不支持的语言类型'
+        return '不支持的语言类型'
     else:
-        return '对不起，您输入的单词%s无法翻译,请检查拼写'% word
+        return '你输入的单词%s无法翻译,请检查拼写'% word
