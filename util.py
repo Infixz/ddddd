@@ -54,8 +54,8 @@ def parse(xml_string):
     # add support for other type of message
     # add support for encrypted message
     xml = etree.fromstring(xml_string)
-    print type(xml)
     developer = xml.find('ToUserName').text
+    print type(developer)
     sender = xml.find('FromUserName').text
     create_time = xml.find('CreateTime').text
     message_type = xml.find('MsgType').text
