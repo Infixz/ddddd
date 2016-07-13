@@ -1,6 +1,7 @@
 """
 View
 """
+# coding: utf-8
 import tornado.web as web
 import tornado.gen as gen
 from util import check_signature, parse

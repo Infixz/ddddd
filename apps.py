@@ -1,6 +1,7 @@
 """
 Controler
 """
+# coding: utf-8
 
 import tornado.web as web
 from local_setting import SETTINGS
