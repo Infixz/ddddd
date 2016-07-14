@@ -55,7 +55,6 @@ def parse(xml_string):
     # add support for encrypted message
     xml = etree.fromstring(xml_string)
     developer = xml.find('ToUserName').text
-    print type(developer)
     sender = xml.find('FromUserName').text
     create_time = xml.find('CreateTime').text
     message_type = xml.find('MsgType').text
@@ -67,7 +66,6 @@ def parse(xml_string):
         content = xml.find('Content').text
         Loader = template.Loader("templates")
         text_resp = Loader.load("text_reply.xml")
-        t = template.Template(tmp)
         if content.startswith('!menu'):
             temp = tuple(content[3:].split(u'，'))
             param1 = int(temp[0])
