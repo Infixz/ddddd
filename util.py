@@ -64,6 +64,7 @@ def parse(xml_string):
     if message_type == 'text':
         message_id = xml.find('MsgId').text
         content = xml.find('Content').text
+        print type(content)
         Loader = template.Loader("templates")
         text_resp = Loader.load("text_reply.xml")
         if content.startswith('!menu'):
