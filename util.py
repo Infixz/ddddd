@@ -191,16 +191,15 @@ def youdao(word):
     result = requests.get(builded_url).json()
     if result['errorCode'] == 0:
         if 'basic' in result.keys():
-            print type(result['query'])
-            trans = '%s:\n%s\n%s\n网络释义：\n%s'%(result['query'],''.join(result['translation']),' '.join(result['basic']['explains']),'\n'.join(result['web'][0]['value']))
+            trans = u'%s:\n%s\n%s\n网络释义：\n%s'%(result['query'], ''.join(result['translation']), ' '.join(result['basic']['explains']), '\n'.join(result['web'][0]['value']))
             return trans
         else:
-            trans = '%s:\n基本翻译:%s\n'%(result['query'],''.join(result['translation']))
+            trans = u'%s:\n基本翻译:%s\n'%(result['query'],''.join(result['translation']))
     elif result['errorCode'] == 20:
-        return '查询词过长'
+        return u'查询词过长'
     elif result['errorCode'] == 30:
-        return '无法进行有效的翻译'
+        return u'无法进行有效的翻译'
     elif result['errorCode'] == 40:
-        return '不支持的语言类型'
+        return u'不支持的语言类型'
     else:
-        return '你输入的单词%s无法翻译,请检查拼写'% word
+        return u'你输入的单词%s无法翻译,请检查拼写'% word.decode('utf-8')

@@ -33,7 +33,7 @@ class WxHandler(web.RequestHandler):
     def post(self):
         if not self._check_signature():
             self.write('Naughty boy~')
-        resp = yield parse(self.request.body).decode('utf-8')
+        resp = yield parse(self.request.body)
         self.write(resp)
 
     def _check_signature(self):
