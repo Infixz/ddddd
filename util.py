@@ -56,7 +56,7 @@ def parse(xml_string):
     xml = etree.fromstring(xml_string)
     developer = xml.find('ToUserName').text
     sender = xml.find('FromUserName').text
-    create_time = xml.find('CreateTime').text
+    # create_time = xml.find('CreateTime').text
     message_type = xml.find('MsgType').text
     message = None
 
@@ -68,7 +68,7 @@ def parse(xml_string):
         text_resp = Loader.load("text_reply.xml")
         t = template.Template(tmp)
         if content.startswith('!menu'):
-            temp = tuple(content[3:].split(u'，'))
+            temp = tuple(content[5:].split(u'，'))
             param1 = int(temp[0])
             param2 = int(temp[1])
             RespContent = """
@@ -88,7 +88,7 @@ def parse(xml_string):
 月实际收入：%s\n税赋：%s\n
 年实际奖金：%s\n税赋：%s\n
 * 一年实际总收入：%s *
-""" % calc_tax(param1,param2)
+""" % calc_tax(param1, param2)
             return t.generate(toUser=sender,
                               fromUser=developer,
                               int_time=int(time.time()),
@@ -132,7 +132,7 @@ def check_signature(signature, timestamp, nonce):
 
 
 def calc_tax(salary_m, num):
-    """检查参数类型"""
+    """return tax detail"""
     if not (isinstance(salary_m, int) and isinstance(num, int)):
         return False
     # init param
