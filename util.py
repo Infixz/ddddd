@@ -74,11 +74,11 @@ def parse(xml_string):
             RespContent = """
 # 中英互译：直接输入中文\n
 # 查询税后收入：！薪水<数字金额>，<发多少个月工资>例如 “#12000,13”
-""" % calc_tax(param1,param2)
+""" % calc_tax(param1, param2)
             return t.generate(toUser=sender,
-                            fromUser=developer,
-                            int_time=int(time.time()),
-                            Content=RespContent)
+                              fromUser=developer,
+                              int_time=int(time.time()),
+                              Content=RespContent)
         if content.startswith(u'#'):
             temp = tuple(content[1:].split(u'，'))
             param1 = int(temp[0])
@@ -90,9 +90,9 @@ def parse(xml_string):
 * 一年实际总收入：%s *
 """ % calc_tax(param1,param2)
             return t.generate(toUser=sender,
-                            fromUser=developer,
-                            int_time=int(time.time()),
-                            Content=RespContent)
+                              fromUser=developer,
+                              int_time=int(time.time()),
+                              Content=RespContent)
         if type(content).__name__ == 'unicode':
             content = content.encode('utf-8')
         RespContent = youdao(content)
@@ -116,9 +116,9 @@ def parse(xml_string):
 输入 !menu 查看操作指令"""
             t = template.Template(tmp)
             return t.generate(toUser=sender,
-                                fromUser=developer,
-                                int_time=int(time.time()),
-                                Content=RespContent)
+                              fromUser=developer,
+                              int_time=int(time.time()),
+                              Content=RespContent)
 
 
 def check_signature(signature, timestamp, nonce):
@@ -131,9 +131,9 @@ def check_signature(signature, timestamp, nonce):
     return hashlib.sha1(tmp_str).hexdigest() == signature
 
 
-def calc_tax(salary_m,num):
-    # 检查参数类型
-    if not (type(salary_m) == int and type(num) == int):
+def calc_tax(salary_m, num):
+    """检查参数类型"""
+    if not (isinstance(salary_m, int) and isinstance(num, int)):
         return False
     # init param
     salary_m_in_real = 0
@@ -151,22 +151,23 @@ def calc_tax(salary_m,num):
     salary_y = salary_m * 12 + bonus
     # 计算税率
     # part1:salary part
-    (rate,deduct) = tax_rate(base)
+    (rate, deduct) = tax_rate(base)
     salary_m_tax = (salary_m - TAX_START_CONST) * rate - deduct
     salary_m_in_real = salary_m - salary_m_tax
     # part2:bonus part
-    (rate,deduct) = tax_rate(bonus)
+    (rate, deduct) = tax_rate(bonus)
     bonus_tax = bonus * rate - deduct
     bonus_in_real = bonus - bonus_tax
     # part3:total
     income = salary_m_in_real * 12 + bonus_in_real
-    return (salary_m,salary_y,
-            salary_m_in_real,salary_m_tax,
-            bonus_in_real,bonus_tax,
+    return (salary_m, salary_y,
+            salary_m_in_real, salary_m_tax,
+            bonus_in_real, bonus_tax,
             income)
 
 
 def tax_rate(money):
+    """calc tax"""
     if money == 0:
         return (0.0,0)
     if 0 < money <= 1500:
