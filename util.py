@@ -68,9 +68,6 @@ def parse(xml_string):
         text_resp = Loader.load("text_reply.xml")
         t = template.Template(tmp)
         if content.startswith('!menu'):
-            temp = tuple(content[5:].split(u'，'))
-            param1 = int(temp[0])
-            param2 = int(temp[1])
             RespContent = """
 # 中英互译：直接输入中文\n
 # 查询税后收入：！薪水<数字金额>，<发多少个月工资>例如 “#12000,13”
