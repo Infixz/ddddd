@@ -3,6 +3,10 @@ Server listening deter port
 """
 # coding:utf-8
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 import tornado.ioloop as ioloop
 import tornado.options
 from tornado.options import define, options
