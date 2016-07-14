@@ -1,5 +1,5 @@
 """
-Server listening deter port
+httpserver & manager
 """
 # coding:utf-8
 
@@ -10,7 +10,7 @@ sys.setdefaultencoding('utf8')
 import tornado.ioloop as ioloop
 import tornado.options
 from tornado.options import define, options
-define("port", default=8085, help='run on given port', type=int)
+define("port", default=8085, help='server will running on the given port', type=int)
 
 from apps import App
 

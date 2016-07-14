@@ -46,9 +46,9 @@ retry = Retry()
 
 def parse(xml_string):
     """
-    parse xml string, return a message object if succeed, else return None
+    parse xml string, return a string object if succeed, else return None
     :param xml_string: xml string that we-chat post to server
-    :return: None or a message object
+    :return: None or a string object
     """
     # TODO
     # add support for other type of message
@@ -191,6 +191,7 @@ def youdao(word):
     result = requests.get(builded_url).json()
     if result['errorCode'] == 0:
         if 'basic' in result.keys():
+            print type(result['query'])
             trans = '%s:\n%s\n%s\n网络释义：\n%s'%(result['query'],''.join(result['translation']),' '.join(result['basic']['explains']),'\n'.join(result['web'][0]['value']))
             return trans
         else:
