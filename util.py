@@ -66,12 +66,12 @@ def parse(xml_string):
         content = xml.find('Content').text
         Loader = template.Loader("templates")
         text_resp = Loader.load("text_reply.xml")
-        t = template.Template(tmp)
+        t = template.Template(unicode(tmp))
         if content.startswith('!menu'):
-            RespContent = """
+            RespContent = u"""
 # 中英互译：直接输入中文\n
 # 查询税后收入：！薪水<数字金额>，<发多少个月工资>例如 “#12000,13”
-""" % calc_tax(param1, param2)
+"""
             return t.generate(toUser=sender,
                               fromUser=developer,
                               int_time=int(time.time()),
@@ -185,19 +185,19 @@ def tax_rate(money):
 
 def youdao(word):
     url = r'http://fanyi.youdao.com/openapi.do?keyfrom=sorrible&key=1660616686&type=data&doctype=json&version=1.1&q='
-    builded_url = url+word
+    builded_url = url+word.encode('utf-8')
     result = requests.get(builded_url).json()
     if result['errorCode'] == 0:
         if 'basic' in result.keys():
             trans = u'%s:\n%s\n%s\n网络释义：\n%s'%(result['query'], ''.join(result['translation']), ' '.join(result['basic']['explains']), '\n'.join(result['web'][0]['value']))
-            return trans
+            return trans.encode('utf-8')
         else:
-            trans = u'%s:\n基本翻译:%s\n'%(result['query'],''.join(result['translation']))
+            trans = '%s:\n基本翻译:%s\n'%(result['query'],''.join(result['translation'])).encode('utf-8')
     elif result['errorCode'] == 20:
-        return u'查询词过长'
+        return '查询词过长'
     elif result['errorCode'] == 30:
-        return u'无法进行有效的翻译'
+        return '无法进行有效的翻译'
     elif result['errorCode'] == 40:
-        return u'不支持的语言类型'
+        return '不支持的语言类型'
     else:
-        return u'你输入的单词%s无法翻译,请检查拼写'% word.decode('utf-8')
+        return '你输入的单词%s无法翻译,请检查拼写'% word.decode('utf-8')
