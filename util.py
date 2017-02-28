@@ -56,18 +56,18 @@ def parse(xml_string):
     xml = etree.fromstring(xml_string)
     developer = xml.find('ToUserName').text
     sender = xml.find('FromUserName').text
-    # create_time = xml.find('CreateTime').text
+    create_time = xml.find('CreateTime').text
     message_type = xml.find('MsgType').text
     message = None
 
     # 信息类型是text
-    if message_type == 'text':
-        message_id = xml.find('MsgId').text
-        content = xml.find('Content').text
-        Loader = template.Loader("templates")
-        text_resp = Loader.load("text_reply.xml")
-        t = template.Template(unicode(tmp))
-        if content.startswith('!menu'):
+    if message_type == u'text':
+        message_id = xml.find(u'MsgId').text
+        content = xml.find(u'Content').text
+        Loader = template.Loader(u"templates")
+        text_resp = Loader.load(u"text_reply.xml")
+        t = template.Template(tmp)
+        if content.startswith(u'!menu'):
             RespContent = u"""
 # 中英互译：直接输入中文\n
 # 查询税后收入：！薪水<数字金额>，<发多少个月工资>例如 “#12000,13”
@@ -90,8 +90,6 @@ def parse(xml_string):
                               fromUser=developer,
                               int_time=int(time.time()),
                               Content=RespContent)
-        if type(content).__name__ == 'unicode':
-            content = content.encode('utf-8')
         RespContent = youdao(content)
         return t.generate(toUser=sender,
                           fromUser=developer,
@@ -190,14 +188,14 @@ def youdao(word):
     if result['errorCode'] == 0:
         if 'basic' in result.keys():
             trans = u'%s:\n%s\n%s\n网络释义：\n%s'%(result['query'], ''.join(result['translation']), ' '.join(result['basic']['explains']), '\n'.join(result['web'][0]['value']))
-            return trans.encode('utf-8')
+            return trans
         else:
-            trans = '%s:\n基本翻译:%s\n'%(result['query'],''.join(result['translation'])).encode('utf-8')
+            trans = u'%s:\n基本翻译:%s\n'%(result['query'],''.join(result['translation']))
     elif result['errorCode'] == 20:
-        return '查询词过长'
+        return u'查询词过长'
     elif result['errorCode'] == 30:
-        return '无法进行有效的翻译'
+        return u'无法进行有效的翻译'
     elif result['errorCode'] == 40:
-        return '不支持的语言类型'
+        return u'不支持的语言类型'
     else:
-        return '你输入的单词%s无法翻译,请检查拼写'% word.decode('utf-8')
+        return u'你输入的单词%s无法翻译,请检查拼写'% word

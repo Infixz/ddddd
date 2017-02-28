@@ -29,12 +29,14 @@ class WxHandler(web.RequestHandler):
         else:
             self.write('Naughty boy~')
 
-    @gen.coroutine
+    @web.asynchronous
+    @gen.engine
     def post(self):
         if not self._check_signature():
             self.write('Naughty boy~')
-        resp = yield parse(self.request.body)
+        resp = yield gen.Task(parse, self.request.body)
         self.write(resp)
+        self.finish()
 
     def _check_signature(self):
         try:
